@@ -16,7 +16,7 @@ small increments, automated checks, documented decisions, and a public roadmap.
 
 - **Web:** React, TypeScript, Vite
 - **API:** Python, FastAPI
-- **Database:** PostgreSQL (planned)
+- **Database:** SQLite for local development; PostgreSQL planned
 - **Quality:** ESLint, Ruff, Pytest, GitHub Actions
 
 ## Repository layout
@@ -51,6 +51,20 @@ fastapi dev
 
 The API runs at `http://127.0.0.1:8000`; interactive documentation is available
 at `http://127.0.0.1:8000/docs`.
+
+The local SQLite database is created automatically as `apps/api/campusflow.db`.
+It is ignored by Git and can be replaced with another database through the
+`DATABASE_URL` environment variable documented in `.env.example`.
+
+### Course API
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/courses` | List courses |
+| `POST` | `/api/courses` | Create a course |
+| `GET` | `/api/courses/{id}` | Read one course |
+| `PATCH` | `/api/courses/{id}` | Update a course |
+| `DELETE` | `/api/courses/{id}` | Delete a course |
 
 ## Roadmap
 
