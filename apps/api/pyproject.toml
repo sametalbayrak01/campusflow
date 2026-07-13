@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "campusflow-api"
+version = "0.1.0"
+description = "CampusFlow API"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.115,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "httpx>=0.28,<1.0",
+    "pytest>=8,<10",
+    "ruff>=0.11,<1.0",
+]
+
+[tool.fastapi]
+entrypoint = "app.main:app"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
