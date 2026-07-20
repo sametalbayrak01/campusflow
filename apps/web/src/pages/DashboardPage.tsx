@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { createAssignment, listAssignments, updateAssignment } from '../api/assignments'
 import { listCourses } from '../api/courses'
+import { listExams } from '../api/exams'
 import { listSchedule } from '../api/schedule'
 import { AssignmentFormDialog } from '../components/AssignmentFormDialog'
 import type { Assignment, AssignmentInput } from '../types/assignment'
@@ -12,10 +13,11 @@ import type { ScheduleEntry } from '../types/schedule'
 type StatsProps = {
   activeCourseCount: number | null
   dueTodayCount: number
+  examCount: number
   tasksRemaining: number
 }
 
-function Stats({ activeCourseCount, dueTodayCount, tasksRemaining }: StatsProps) {
+function Stats({ activeCourseCount, dueTodayCount, examCount, tasksRemaining }: StatsProps) {
   const { t } = useTranslation()
   return (
     <section className="stats-grid" aria-label={t('dashboard.studyOverview')}>
@@ -31,8 +33,8 @@ function Stats({ activeCourseCount, dueTodayCount, tasksRemaining }: StatsProps)
       </article>
       <article className="stat-card">
         <span className="stat-icon blue">◷</span>
-        <div><strong>12.5h</strong><span>{t('dashboard.focusWeek')}</span></div>
-        <small>{t('dashboard.fromLastWeek')}</small>
+        <div><strong>{examCount}</strong><span>{t('dashboard.upcomingExams')}</span></div>
+        <small>{t('dashboard.examSummary')}</small>
       </article>
     </section>
   )
@@ -121,6 +123,7 @@ export function DashboardPage() {
   const [courses, setCourses] = useState<Course[]>([])
   const [activeCourseCount, setActiveCourseCount] = useState<number | null>(null)
   const [todaySchedule, setTodaySchedule] = useState<ScheduleEntry[]>([])
+  const [examCount, setExamCount] = useState(0)
   const [assignmentDialogOpen, setAssignmentDialogOpen] = useState(false)
   const [assignmentBusy, setAssignmentBusy] = useState(false)
   const [assignmentBusyId, setAssignmentBusyId] = useState<number | null>(null)
@@ -170,8 +173,11 @@ export function DashboardPage() {
           setAssignmentError(t('assignments.loadError'))
         }
       })
+    listExams(controller.signal)
+      .then((items) => setExamCount(items.filter((exam) => exam.exam_date >= todayValue).length))
+      .catch(() => setExamCount(0))
     return () => controller.abort()
-  }, [t])
+  }, [t, todayValue])
 
   const saveAssignment = async (input: AssignmentInput) => {
     setAssignmentBusy(true)
@@ -222,6 +228,7 @@ export function DashboardPage() {
       <Stats
         activeCourseCount={activeCourseCount}
         dueTodayCount={dueTodayCount}
+        examCount={examCount}
         tasksRemaining={assignments.length - completedCount}
       />
       <div className="content-grid">

@@ -29,6 +29,9 @@ export function AppLayout() {
           <NavLink className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} to="/assignments">
             <span aria-hidden="true">✓</span>{t('nav.tasks')}
           </NavLink>
+          <NavLink className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} to="/exams">
+            <span aria-hidden="true">!</span>{t('nav.exams')}
+          </NavLink>
           <NavLink className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} to="/courses">
             <span aria-hidden="true">◇</span>{t('nav.courses')}
           </NavLink>

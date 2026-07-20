@@ -241,6 +241,30 @@ describe('CampusFlow web application', () => {
     expect(screen.getByRole('heading', { name: 'Çarşamba' })).toBeInTheDocument()
   })
 
+  it('creates an exam from the exams page', async () => {
+    window.history.pushState({}, '', '/exams')
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, options?: RequestInit) => {
+      const path = String(input)
+      const method = options?.method ?? 'GET'
+      if (path === '/api/courses') return jsonResponse([sampleCourse])
+      if (path === '/api/exams' && method === 'GET') return jsonResponse([])
+      if (path === '/api/exams' && method === 'POST') {
+        const values = JSON.parse(String(options?.body))
+        return jsonResponse({ ...values, id: 1, created_at: '2026-07-20T12:00:00', course: sampleScheduleEntry.course }, 201)
+      }
+      return jsonResponse({ detail: 'Not found' }, 404)
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    const user = userEvent.setup()
+    render(<App />)
+    expect(await screen.findByText('Planlanmış sınav yok')).toBeInTheDocument()
+    await user.click(screen.getAllByRole('button', { name: /Sınav ekle/ })[0])
+    await user.type(screen.getByLabelText('Sınav adı'), 'Midterm')
+    fireEvent.change(screen.getByLabelText('Sınav tarihi'), { target: { value: '2026-07-25' } })
+    await user.click(screen.getByRole('button', { name: 'Kaydet' }))
+    expect(await screen.findByText('Midterm')).toBeInTheDocument()
+  })
+
   it('shows a localized schedule conflict error', async () => {
     window.history.pushState({}, '', '/schedule')
     const fetchMock = vi.fn(async (input: RequestInfo | URL, options?: RequestInit) => {

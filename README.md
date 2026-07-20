@@ -110,6 +110,12 @@ class ending at `10:00` does not conflict with another class starting at
 Dashboard assignment counts, due dates, create actions, and completion
 checkboxes use this API and persist in the database.
 
+### Exam API
+
+`GET` and `POST` requests use `/api/exams`; `PATCH` and `DELETE` use
+`/api/exams/{id}`. The `/exams` page manages exam dates, optional start times,
+and locations. The dashboard shows the number of exams scheduled from today.
+
 ## Quality checks
 
 ```bash

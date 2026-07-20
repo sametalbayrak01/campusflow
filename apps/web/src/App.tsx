@@ -4,6 +4,7 @@ import { AppLayout } from './components/AppLayout'
 import { AssignmentsPage } from './pages/AssignmentsPage'
 import { CoursesPage } from './pages/CoursesPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { ExamsPage } from './pages/ExamsPage'
 import { SchedulePage } from './pages/SchedulePage'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<DashboardPage />} />
           <Route path="assignments" element={<AssignmentsPage />} />
           <Route path="courses" element={<CoursesPage />} />
+          <Route path="exams" element={<ExamsPage />} />
           <Route path="schedule" element={<SchedulePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

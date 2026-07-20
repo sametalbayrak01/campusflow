@@ -12,39 +12,33 @@ web interface, migration, tests, and documentation together.
 - [x] Weekly schedule create, edit, and delete workflows
 - [x] Same-day schedule conflict detection
 - [x] Persistent assignment create, edit, complete, and delete workflows
+- [x] Exam create, edit, and delete workflows with dashboard integration
 - [x] Turkish and English interface support
 - [x] Dashboard course, schedule, and assignment API integration
 
 ## Remaining product sections
 
-### 1. Exams
-
-- [ ] Add the `Exam` model and migration
-- [ ] Add validated exam CRUD API endpoints and service rules
-- [ ] Add exam management UI and dashboard deadlines
-- [ ] Add API and web behavior tests
-
-### 2. User accounts and ownership
+### 1. User accounts and ownership
 
 - [ ] Choose and document the authentication provider
 - [ ] Add users and ownership to courses, schedules, assignments, and exams
 - [ ] Protect API endpoints and web routes
 - [ ] Add sign-in, sign-out, session, and authorization tests
 
-### 3. Production database
+### 2. Production database
 
 - [ ] Add the PostgreSQL driver and local development configuration
 - [ ] Run every migration against PostgreSQL in CI
 - [ ] Document backup, restore, and migration deployment procedures
 
-### 4. Honest dashboard and product polish
+### 3. Honest dashboard and product polish
 
 - [ ] Replace the placeholder focus-hours and semester-progress values
 - [ ] Implement or remove notification and profile buttons
 - [ ] Add loading, empty, and failure states for every remaining surface
 - [ ] Complete keyboard, responsive, and accessibility review
 
-### 5. Demo and deployment
+### 4. Demo and deployment
 
 - [ ] Add an idempotent demo-data seed command
 - [ ] Configure production web and API deployment

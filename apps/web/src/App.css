@@ -120,6 +120,7 @@ button:disabled { cursor: not-allowed; opacity: .62; }
 .assignment-card.completed .assignment-copy { opacity: .55; }.assignment-card.completed h2 { text-decoration: line-through; }
 .assignment-actions { display: grid; gap: 5px; }.assignment-actions button { padding: 3px 0; border: 0; color: var(--primary); background: transparent; cursor: pointer; font-size: 9px; font-weight: 700; }.assignment-actions .danger-text { color: #b34f4f; }
 .page-error { margin-top: 18px; padding: 12px; border-radius: 10px; color: #9b3d3d; background: #fff0f0; font-size: 12px; }
+.exams-page .topbar { align-items: flex-start; }.exam-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin-top: 34px; }.exam-card { position: relative; padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); }.exam-card::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--course-color); }.exam-card > span { color: var(--course-color); font-size: 10px; font-weight: 800; }.exam-card h2 { margin: 9px 0; font-size: 16px; }.exam-card time,.exam-card small { display: block; color: var(--muted); font-size: 10px; }.exam-card small { margin-top: 5px; }.exam-card > div { display: flex; gap: 14px; margin-top: 16px; }.exam-card button { padding: 0; border: 0; color: var(--primary); background: transparent; cursor: pointer; font-size: 10px; font-weight: 700; }.exam-card .danger-text { color: #b34f4f; }
 @media (max-width: 1100px) { .course-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 900px) {
   .sidebar-footer { display: none; }
@@ -130,6 +131,7 @@ button:disabled { cursor: not-allowed; opacity: .62; }
   .course-grid { grid-template-columns: 1fr; margin-top: 24px; }
   .weekly-schedule { grid-template-columns: 1fr; margin-top: 24px; }
   .assignment-grid { grid-template-columns: 1fr; margin-top: 24px; }
+  .exam-grid { grid-template-columns: 1fr; margin-top: 24px; }
   .form-grid { grid-template-columns: 1fr; }
   .form-wide { grid-column: auto; }
   .modal-card { padding: 21px; }

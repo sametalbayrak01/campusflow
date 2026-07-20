@@ -8,6 +8,7 @@ from app.database import Base
 
 if TYPE_CHECKING:
     from app.models.assignment import Assignment
+    from app.models.exam import Exam
     from app.models.schedule import ScheduleEntry
 
 
@@ -31,4 +32,7 @@ class Course(Base):
         back_populates="course",
         cascade="all, delete-orphan",
         passive_deletes=True,
+    )
+    exams: Mapped[list["Exam"]] = relationship(
+        back_populates="course", cascade="all, delete-orphan", passive_deletes=True
     )
