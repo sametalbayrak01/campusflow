@@ -18,7 +18,7 @@ def test_migrations_create_course_schema(tmp_path: Path, monkeypatch) -> None:
         command.upgrade(config, "head")
 
         inspector = inspect(create_engine(database_url))
-        assert {"alembic_version", "courses", "schedule_entries"} <= set(
+        assert {"alembic_version", "assignments", "courses", "schedule_entries"} <= set(
             inspector.get_table_names()
         )
         assert {column["name"] for column in inspector.get_columns("courses")} == {
@@ -39,6 +39,14 @@ def test_migrations_create_course_schema(tmp_path: Path, monkeypatch) -> None:
             "start_time",
             "end_time",
             "room",
+            "created_at",
+        }
+        assert {column["name"] for column in inspector.get_columns("assignments")} == {
+            "id",
+            "course_id",
+            "title",
+            "due_date",
+            "completed",
             "created_at",
         }
     finally:

@@ -98,6 +98,18 @@ through `6` for Sunday. Time ranges are treated as half-open intervals, so a
 class ending at `10:00` does not conflict with another class starting at
 `10:00`; any actual overlap on the same weekday returns HTTP `409`.
 
+### Assignment API
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/assignments` | List assignments |
+| `POST` | `/api/assignments` | Create an assignment |
+| `PATCH` | `/api/assignments/{id}` | Update or complete an assignment |
+| `DELETE` | `/api/assignments/{id}` | Delete an assignment |
+
+Dashboard assignment counts, due dates, create actions, and completion
+checkboxes use this API and persist in the database.
+
 ## Quality checks
 
 ```bash

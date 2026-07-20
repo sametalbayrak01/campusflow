@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import userEvent from '@testing-library/user-event'
 import App from './App'
 import i18n from './i18n'
+import type { Assignment, AssignmentInput } from './types/assignment'
 import type { Course, CourseInput } from './types/course'
 import type { ScheduleEntry, ScheduleEntryInput } from './types/schedule'
 
@@ -133,6 +134,48 @@ describe('CampusFlow web application', () => {
 
     expect(statCard).not.toBeNull()
     await waitFor(() => expect(within(statCard as HTMLElement).getByText('1')).toBeInTheDocument())
+  })
+
+  it('creates and completes an assignment from the dashboard', async () => {
+    let assignments: Assignment[] = []
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, options?: RequestInit) => {
+      const path = String(input)
+      const method = options?.method ?? 'GET'
+      if (path === '/api/courses') return jsonResponse([sampleCourse])
+      if (path === '/api/schedule') return jsonResponse([])
+      if (path === '/api/assignments' && method === 'GET') return jsonResponse(assignments)
+      if (path === '/api/assignments' && method === 'POST') {
+        const values = JSON.parse(String(options?.body)) as AssignmentInput
+        const created: Assignment = {
+          ...values,
+          completed: false,
+          id: 1,
+          created_at: '2026-07-20T12:00:00',
+          course: sampleScheduleEntry.course,
+        }
+        assignments = [created]
+        return jsonResponse(created, 201)
+      }
+      if (path === '/api/assignments/1' && method === 'PATCH') {
+        assignments = assignments.map((assignment) => ({ ...assignment, completed: true }))
+        return jsonResponse(assignments[0])
+      }
+      return jsonResponse({ detail: 'Not found' }, 404)
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    const user = userEvent.setup()
+    render(<App />)
+
+    await waitFor(() => expect(screen.getByText('Aktif ders').previousSibling).toHaveTextContent('1'))
+    await user.click(screen.getByRole('button', { name: /Görev ekle/ }))
+    await user.type(screen.getByLabelText('Ödev başlığı'), 'Graph theory problem set')
+    fireEvent.change(screen.getByLabelText('Son tarih'), { target: { value: '2026-07-22' } })
+    await user.click(screen.getByRole('button', { name: 'Kaydet' }))
+
+    expect(await screen.findByText('Graph theory problem set')).toBeInTheDocument()
+    const checkbox = screen.getByRole('checkbox', { name: /Graph theory problem set/ })
+    await user.click(checkbox)
+    await waitFor(() => expect(checkbox).toBeChecked())
   })
 
   it('creates a weekly schedule entry', async () => {

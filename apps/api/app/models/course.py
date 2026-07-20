@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
 if TYPE_CHECKING:
+    from app.models.assignment import Assignment
     from app.models.schedule import ScheduleEntry
 
 
@@ -22,6 +23,11 @@ class Course(Base):
     credits: Mapped[int] = mapped_column(Integer, default=3)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
     schedule_entries: Mapped[list["ScheduleEntry"]] = relationship(
+        back_populates="course",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+    assignments: Mapped[list["Assignment"]] = relationship(
         back_populates="course",
         cascade="all, delete-orphan",
         passive_deletes=True,
