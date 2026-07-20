@@ -19,27 +19,41 @@ web interface, migration, tests, and documentation together.
 
 ## Remaining product sections
 
-### 1. User accounts and ownership
+### 1. Schedule document import
+
+- [ ] Accept PDF, PNG, and JPEG uploads for course and exam schedules
+- [ ] Ask whether the uploaded document is a course schedule or exam schedule
+- [ ] Extract course names, dates or weekdays, times, and locations
+- [ ] Show an editable preview and validation warnings before saving anything
+- [ ] Import only the rows explicitly approved by the student
+- [ ] Reject unsupported or unreadable files with a clear fallback to manual entry
+- [ ] Keep uploads temporary and document the retention and privacy policy
+
+Calendar-file (`.ics`) import and calendar subscriptions are intentionally out
+of scope. University schedules are commonly published as documents, and the
+upload-review-confirm flow keeps the primary onboarding path understandable.
+
+### 2. User accounts and ownership
 
 - [ ] Choose and document the authentication provider
 - [ ] Add users and ownership to courses, schedules, assignments, and exams
 - [ ] Protect API endpoints and web routes
 - [ ] Add sign-in, sign-out, session, and authorization tests
 
-### 2. Production database
+### 3. Production database
 
 - [ ] Add the PostgreSQL driver and local development configuration
 - [ ] Run every migration against PostgreSQL in CI
 - [ ] Document backup, restore, and migration deployment procedures
 
-### 3. Honest dashboard and product polish
+### 4. Honest dashboard and product polish
 
 - [ ] Replace the placeholder focus-hours and semester-progress values
 - [ ] Implement or remove notification and profile buttons
 - [ ] Add loading, empty, and failure states for every remaining surface
 - [ ] Complete keyboard, responsive, and accessibility review
 
-### 4. Demo and deployment
+### 5. Demo and deployment
 
 - [ ] Add an idempotent demo-data seed command
 - [ ] Configure production web and API deployment

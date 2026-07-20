@@ -8,6 +8,7 @@ small increments, automated checks, documented decisions, and a public roadmap.
 
 - Create and manage courses
 - Build a weekly timetable
+- Import course and exam schedules from PDF or image files (planned)
 - Detect schedule conflicts
 - Track assignments and exams
 - Show upcoming work on a dashboard
@@ -134,12 +135,15 @@ pytest
 Detailed delivery status and the remaining definition of done are tracked in
 [`docs/roadmap.md`](docs/roadmap.md).
 
-1. Project foundation and CI
-2. Course CRUD and web integration
-3. PostgreSQL persistence and migrations
-4. Weekly timetable and conflict detection
-5. Assignment and exam tracking
-6. Authentication, deployment, and demo data
+The next product slice imports course and exam schedules from PDF, PNG, or JPEG
+files. Students review and edit extracted rows before approving any database
+changes. Calendar-file (`.ics`) import is not part of the planned workflow.
+
+1. Schedule document import
+2. User accounts and ownership
+3. PostgreSQL production database
+4. Dashboard and product polish
+5. Deployment and demo data
 
 ## License
 
