@@ -7,6 +7,7 @@ web interface, migration, tests, and documentation together.
 ## Completed
 
 - [x] Repository foundation, web/API separation, local configuration, and CI
+- [x] GitHub Actions running on current Node.js 24 action runtimes
 - [x] Course create, list, edit, and delete workflows
 - [x] SQLite persistence and Alembic schema migrations
 - [x] Weekly schedule create, edit, and delete workflows
