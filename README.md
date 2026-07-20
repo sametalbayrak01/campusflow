@@ -125,6 +125,9 @@ pytest
 
 ## Roadmap
 
+Detailed delivery status and the remaining definition of done are tracked in
+[`docs/roadmap.md`](docs/roadmap.md).
+
 1. Project foundation and CI
 2. Course CRUD and web integration
 3. PostgreSQL persistence and migrations

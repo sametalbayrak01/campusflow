@@ -1,10 +1,11 @@
 import { useEffect, useId, useState, type ChangeEvent, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Course } from '../types/course'
-import type { AssignmentInput } from '../types/assignment'
+import type { Assignment, AssignmentInput } from '../types/assignment'
 
 type AssignmentFormDialogProps = {
   courses: Course[]
+  assignment: Assignment | null
   busy: boolean
   error: string | null
   onClose: () => void
@@ -18,6 +19,7 @@ const localDateValue = (date: Date) => {
 
 export function AssignmentFormDialog({
   courses,
+  assignment,
   busy,
   error,
   onClose,
@@ -25,9 +27,9 @@ export function AssignmentFormDialog({
 }: AssignmentFormDialogProps) {
   const { t } = useTranslation()
   const titleId = useId()
-  const [courseId, setCourseId] = useState(String(courses[0]?.id ?? ''))
-  const [title, setTitle] = useState('')
-  const [dueDate, setDueDate] = useState(localDateValue(new Date()))
+  const [courseId, setCourseId] = useState(String(assignment?.course_id ?? courses[0]?.id ?? ''))
+  const [title, setTitle] = useState(assignment?.title ?? '')
+  const [dueDate, setDueDate] = useState(assignment?.due_date ?? localDateValue(new Date()))
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -46,7 +48,7 @@ export function AssignmentFormDialog({
     <div className="modal-backdrop">
       <section className="modal-card" role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <div className="modal-heading">
-          <div><p className="eyebrow">{t('assignments.eyebrow')}</p><h2 id={titleId}>{t('assignments.addTitle')}</h2></div>
+          <div><p className="eyebrow">{t('assignments.eyebrow')}</p><h2 id={titleId}>{t(assignment ? 'assignments.editTitle' : 'assignments.addTitle')}</h2></div>
           <button className="close-button" type="button" onClick={onClose} disabled={busy} aria-label={t('common.cancel')}>×</button>
         </div>
         <form className="course-form" onSubmit={submit}>

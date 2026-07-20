@@ -178,6 +178,51 @@ describe('CampusFlow web application', () => {
     await waitFor(() => expect(checkbox).toBeChecked())
   })
 
+  it('edits and deletes an assignment from the assignments page', async () => {
+    window.history.pushState({}, '', '/assignments')
+    let assignment: Assignment | undefined = {
+      id: 1,
+      course_id: sampleCourse.id,
+      title: 'Graph theory problem set',
+      due_date: '2026-07-22',
+      completed: false,
+      created_at: '2026-07-20T12:00:00',
+      course: sampleScheduleEntry.course,
+    }
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, options?: RequestInit) => {
+      const path = String(input)
+      const method = options?.method ?? 'GET'
+      if (path === '/api/courses') return jsonResponse([sampleCourse])
+      if (path === '/api/assignments' && method === 'GET') return jsonResponse(assignment ? [assignment] : [])
+      if (path === '/api/assignments/1' && method === 'PATCH') {
+        const changes = JSON.parse(String(options?.body)) as Partial<Assignment>
+        assignment = { ...assignment!, ...changes }
+        return jsonResponse(assignment)
+      }
+      if (path === '/api/assignments/1' && method === 'DELETE') {
+        assignment = undefined
+        return new Response(null, { status: 204 })
+      }
+      return jsonResponse({ detail: 'Not found' }, 404)
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    const user = userEvent.setup()
+    render(<App />)
+
+    expect(await screen.findByText('Graph theory problem set')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Düzenle' }))
+    const titleInput = screen.getByLabelText('Ödev başlığı')
+    await user.clear(titleInput)
+    await user.type(titleInput, 'Advanced graph theory')
+    await user.click(screen.getByRole('button', { name: 'Kaydet' }))
+    expect(await screen.findByText('Advanced graph theory')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Sil' }))
+    const dialog = screen.getByRole('alertdialog')
+    await user.click(within(dialog).getByRole('button', { name: 'Sil' }))
+    expect(await screen.findByText('Henüz ödev yok')).toBeInTheDocument()
+  })
+
   it('creates a weekly schedule entry', async () => {
     window.history.pushState({}, '', '/schedule')
     installScheduleApi()

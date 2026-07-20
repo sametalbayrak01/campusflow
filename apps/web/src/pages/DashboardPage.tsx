@@ -238,6 +238,7 @@ export function DashboardPage() {
       {assignmentDialogOpen && (
         <AssignmentFormDialog
           courses={courses}
+          assignment={null}
           busy={assignmentBusy}
           error={assignmentError}
           onClose={() => { if (!assignmentBusy) setAssignmentDialogOpen(false) }}

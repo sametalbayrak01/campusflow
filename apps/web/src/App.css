@@ -111,15 +111,25 @@ button:disabled { cursor: not-allowed; opacity: .62; }
 .schedule-entry-time strong, .schedule-entry-time span { display: block; }.schedule-entry-time strong { font-size: 12px; }.schedule-entry-time span { margin-top: 3px; color: var(--muted); font-size: 9px; }
 .schedule-entry-copy { min-width: 0; }.schedule-entry-copy span { color: var(--course-color); font-size: 9px; font-weight: 800; }.schedule-entry-copy h3 { overflow: hidden; margin: 3px 0; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }.schedule-entry-copy small { color: var(--muted); font-size: 9px; }
 .schedule-entry-actions { display: grid; gap: 4px; }.schedule-entry-actions button { padding: 3px 0; border: 0; color: var(--primary); background: transparent; cursor: pointer; font-size: 9px; font-weight: 700; }.schedule-entry-actions .danger-text { color: #b34f4f; }
+.assignments-page .topbar { align-items: flex-start; }
+.assignment-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin-top: 34px; }
+.assignment-card { position: relative; display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: start; padding: 20px; overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); }
+.assignment-card::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--course-color); }
+.assignment-check { position: relative; cursor: pointer; }.assignment-check input { position: absolute; opacity: 0; }.assignment-check span { width: 21px; height: 21px; display: grid; place-items: center; border: 1.5px solid #cbc7d5; border-radius: 6px; color: transparent; font-size: 11px; }.assignment-check input:checked + span { border-color: var(--primary); color: white; background: var(--primary); }.assignment-check input:focus-visible + span { outline: 2px solid var(--primary); outline-offset: 2px; }
+.assignment-copy { min-width: 0; }.assignment-copy span { color: var(--course-color); font-size: 9px; font-weight: 800; }.assignment-copy h2 { margin: 5px 0 8px; font-size: 15px; line-height: 1.35; }.assignment-copy time { color: var(--muted); font-size: 10px; }
+.assignment-card.completed .assignment-copy { opacity: .55; }.assignment-card.completed h2 { text-decoration: line-through; }
+.assignment-actions { display: grid; gap: 5px; }.assignment-actions button { padding: 3px 0; border: 0; color: var(--primary); background: transparent; cursor: pointer; font-size: 9px; font-weight: 700; }.assignment-actions .danger-text { color: #b34f4f; }
+.page-error { margin-top: 18px; padding: 12px; border-radius: 10px; color: #9b3d3d; background: #fff0f0; font-size: 12px; }
 @media (max-width: 1100px) { .course-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 900px) {
   .sidebar-footer { display: none; }
 }
 @media (max-width: 640px) {
-  .courses-page .topbar, .schedule-page .topbar { align-items: stretch; flex-direction: column; }
-  .courses-page .topbar .primary-button, .schedule-page .topbar .primary-button { align-self: flex-start; }
+  .courses-page .topbar, .schedule-page .topbar, .assignments-page .topbar { align-items: stretch; flex-direction: column; }
+  .courses-page .topbar .primary-button, .schedule-page .topbar .primary-button, .assignments-page .topbar .primary-button { align-self: flex-start; }
   .course-grid { grid-template-columns: 1fr; margin-top: 24px; }
   .weekly-schedule { grid-template-columns: 1fr; margin-top: 24px; }
+  .assignment-grid { grid-template-columns: 1fr; margin-top: 24px; }
   .form-grid { grid-template-columns: 1fr; }
   .form-wide { grid-column: auto; }
   .modal-card { padding: 21px; }
