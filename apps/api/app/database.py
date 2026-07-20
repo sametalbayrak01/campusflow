@@ -1,6 +1,7 @@
 from collections.abc import Generator
+from sqlite3 import Connection as SQLiteConnection
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
@@ -20,6 +21,19 @@ if database_url.startswith("sqlite"):
         engine_options["poolclass"] = StaticPool
 
 engine = create_engine(database_url, **engine_options)
+
+
+def enable_sqlite_foreign_keys(dbapi_connection: object, _: object) -> None:
+    if not isinstance(dbapi_connection, SQLiteConnection):
+        return
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
+
+if database_url.startswith("sqlite"):
+    event.listen(engine, "connect", enable_sqlite_foreign_keys)
+
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
 
