@@ -33,6 +33,30 @@ Calendar-file (`.ics`) import and calendar subscriptions are intentionally out
 of scope. University schedules are commonly published as documents, and the
 upload-review-confirm flow keeps the primary onboarding path understandable.
 
+#### Next session checkpoint
+
+Continue with this section before starting accounts, PostgreSQL, or deployment.
+Deliver it in reviewable vertical slices:
+
+1. Choose and document the PDF/image extraction engine, its required environment
+   variables, supported file limits, and local-development fallback.
+2. Add a temporary upload and extraction API for PDF, PNG, and JPEG files. The
+   response must be a preview only and must not modify the database.
+3. Add an accessible web flow that asks for the document type, displays editable
+   extracted rows, highlights incomplete or conflicting values, and lets the
+   student select which rows to import.
+4. Convert approved course-schedule rows into courses and weekly schedule
+   entries, reusing the existing schedule conflict rules.
+5. Convert approved exam-schedule rows into courses and exams, detecting
+   duplicates before saving.
+6. Test the complete flow with representative KTUN course and exam schedule
+   documents, then run all web/API checks and GitHub Actions.
+
+Uploaded source files must be treated as temporary private data: validate file
+type and size, do not expose their contents in logs, and delete them after
+extraction. Low-confidence extraction must always require student review; it
+must never silently create records.
+
 ### 2. User accounts and ownership
 
 - [ ] Choose and document the authentication provider
